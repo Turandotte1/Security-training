@@ -11,19 +11,13 @@ void	search_and_replace(char *str, char a, char b)
 
 	i = 0;
 	while(*(str+i))
-	{
-		if (*(str+i) == a)
-			*(str+i) = b;
-		ft_putchar(*(str+i++));
-	}
+		*(str+i) == a ? *(str+i) = b : ft_putchar(*(str+i++));
 }
 
 int		main(int ac, char **av)
 {
 	if (ac == 4 && !av[2][1] && !av[3][1])
-	{
 		search_and_replace(av[1], av[2][0], av[3][0]);
-	}
 	ft_putchar('\n');
-	return 1;
+	return (0);
 }
