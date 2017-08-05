@@ -1,6 +1,4 @@
 #include <unistd.h>
-#include <stdio.h>
-#include <stdlib.h>
 
 void	ft_putchar(char c)
 {
@@ -11,55 +9,37 @@ int		ft_strlen(char *str)
 {
 	int len = 0;
 
-	while (*(str+len))
+	while (str[len])
 		len++;
-	return (len);
+	return(len);
 }
 
-char	*ft_trim(char *str)
+int		isblanc(char c)
 {
-	int i = 0;
-	int j = ft_strlen(str);
-	char *cstr;
-	int k = 0;
-
-	while (*(str+i) == ' ')
-		i++;
-	while (*(str+j - 1) == ' ')
-		j--;
-	cstr = (char*)malloc(sizeof(char) * (j - i + 1));
-	while (k < j - i)
-	{
-		cstr[k] = str[i + k];
-		k++;
-	}
-	cstr[k] = '\0';
-	return (cstr);
+	if (c == 32 || (c >= 9 && c <= 13))
+		return (1);
+	return (0);
 }
 
 void	epur_str(char *str)
 {
-	int i = -1;
-	int flag;
+	int i = 0;
+	int len = ft_strlen(str);
 
-	str = ft_trim(str);
-	flag = 1;
-	while (str[++i] != '\0')
+	while (len && isblanc(*(str+(len-1))))
+		--len;
+	while (len && isblanc(*(str+i)) && *(str+i))
 	{
-		if (str[i] == ' ' && flag == 1)
-		{
-			ft_putchar(str[i]);
-			flag = 0;
-		}
-		else if (str[i] == ' ' && flag == 0)
-			;
-		else
-		{
-			ft_putchar(str[i]);
-			flag = 1;
-		}
+		--len;
+		i++;
 	}
-	free(str);
+	while (len)
+	{
+		if (!isblanc(*(str+i)) || (*(str+i+1) && !isblanc(*(str+i+1))))
+			ft_putchar(*(str+i));
+		i++;
+		len--;
+	}
 }
 
 int		main(int ac, char **av)
