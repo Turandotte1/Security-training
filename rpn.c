@@ -4,67 +4,76 @@
 #include <ctype.h>
 #include <string.h>
 
-int		get(char *banana, char *str, char **new_str)
+// check string
+int 	ft_strlen(char *str)
 {
-	char *t;
-	int a;
-	int b;
+	int i = 0;
+	while (str[i])
+		i++;
+	return (i);
+}
 
-	str--;
-	while (str >= banana && isspace(*str))
-		str--;
-	t = str;
-	while (t > banana && !isspace(t[-1]))
-		t--;
-	if (t < banana)
+int 	ft_isspace(char c)
+{
+	return (c == ' ' ? 1 : 0); 
+}
+
+int		get(char *initial, char *backwards, char **new_backwards)
+{
+	char 	*temp;
+	int 	j;
+	int 	k;
+
+	backwards--;
+	while (backwards >= initial && ft_isspace(*backwards))
+		backwards--;
+	temp = backwards;
+	while (temp > initial && !ft_isspace(temp[-1]))
+		temp--;
+	if (temp < initial)
 	{
 		printf("error\n");
-		return (1);
+		return (-1);
 	}
 
-	#define get_recursive(expr) b = get(banana, t, (char**)&t), a = get(banana, t, (char **)&t), a = expr
-
-	a = atoi(t);
-	if (str <= t)
+	#define get_recursive(expr) k = get(initial, temp, (char**)&temp), j = get(initial, temp, (char **)&temp), j = expr
+	j = atoi(temp);
+	if (backwards <= temp)
 	{
-		if	(t[0] == '+') 
-			get_recursive(a + b);
-		else if (t[0] == '-') 
-			get_recursive(a - b);
-		else if (t[0] == '*') 
-			get_recursive(a * b);
-		else if (t[0] == '/') 
-			get_recursive(a / b);
-		else if (t[0] == '%') 
-			get_recursive(a % b);
+		if	(temp[0] == '+') 
+			get_recursive(j + k);
+		else if (temp[0] == '-') 
+			get_recursive(j - k);
+		else if (temp[0] == '*') 
+			get_recursive(j * k);
+		else if (temp[0] == '/') 
+			get_recursive(j / k);
+		else if (temp[0] == '%') 
+			get_recursive(j % k);
 	}
-
 	#undef get_recursive
 
-	*(char **)new_str = t;
-	return (a);
+	*(char **)new_backwards = temp;
+	return (j);
 }
 
-int		rpn(char *banana)
+int 		rpn(char *initial)
 {
-	char *str = banana + strlen(banana);
-	int a = get(banana, str, (char**)&str);
+	char *backwards = initial + ft_strlen(initial);		
+	int i = get(initial, backwards, (char**)&backwards);
 
-	while (str < banana && isspace(str[-1]))
-		str--;
-	if (str == banana)
-		return (a);
-	return (42);
+	while (backwards < initial && ft_isspace(backwards[-1]))
+		backwards--;
+	if (backwards == initial)
+		return (i);
+	return (-1);
 }
 
-int		main(int ac, char **av)
+int			main(int ac, char **av)
 {
-	if (ac == 2 && rpn(av[1]) != 42)
-	{
+	if (ac == 2 && rpn(av[1]) != -1)
 		printf("%i\n", rpn(av[1]));
-	}
 	else
 		printf("error\n");
-	return 0;
+	return (0);
 }
-	

@@ -1,6 +1,8 @@
 #include <dirent.h>
 #include <stdio.h>
 
+
+
 int		ft_ls()
 {
 	struct dirent 	*banana;
@@ -19,8 +21,20 @@ int		ft_ls()
 	return 0;
 }
 
-int		main(void)
+int		main(int ac, char **av)
 {
-	ft_ls();
+	char	flags[7];
+	int 	i;
+
+	i = 1;
+	printf("%s\n", av[i] + 1);
+	while (i < ac)
+	{
+		if (av[i][0] == '-' && av[i][1])
+		{
+			flag_foo(flags);
+
+		}
+	i < ac ? ft_ls_with_flags : ft_ls_without flags;
 	return 0;
 }
