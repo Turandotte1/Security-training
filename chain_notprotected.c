@@ -3,7 +3,6 @@
 #include <string.h>
 #include <fcntl.h>
 #include <sys/stat.h>
-#include "hacking.h"
 
 #define	FILENAME "/var/notes"
 
@@ -12,6 +11,24 @@
 	execute le programme, avec un command-line argument pour afficher seulement
 	les donnes qui correspond a la chaine passee en argument
 */
+void	fatal(char *message)
+{
+	char	error_message[100];
+
+	strcpy(error_message, "[!!] FATAL ERROR ");
+	strncat(error_message, message, 83);
+	perror(error_message);
+	exit(-1);
+}
+
+void	*error_malloc(unsigned int len)
+{
+	void	*ptr;
+	ptr = malloc(len);
+	if (ptr == NULL)
+		fatal("in error_maloc --> failed memory allocation");
+	return (ptr);
+}
 
 int 	search_user_note(char *note, char *search)
 {
@@ -66,8 +83,8 @@ int 	find_user_note(int fd, int uid) //cherche la note suivante d'utilisateur et
 	return (length);
 }
 
-int 	print_notes(int fd, int uid, char *search) //afficher les donnes d'utilisateur avec UID correpondant																 
-{													//a la chaine passe en argument en ligne de commande 
+int 	print_notes(int fd, int uid, char *search) //afficher les donnes d'utilisateur avec UID correpondant
+{													//a la chaine passe en argument en ligne de commande
 	int 	length;
 	char	byte;
 	char 	buffer[100];
@@ -88,7 +105,7 @@ int		main(int ac, char **av)
 	int 	userid;
 	int 	printing;
 	int 	fd;
-	char	search[100];	
+	char	search[100];
 
 	printing = 1;
 	if (ac > 1)

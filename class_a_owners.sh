@@ -1,3 +1,5 @@
+#Check ownhers of class A domain
+
 #!/bin/bash
 
 for x in `seq 1 255`; do

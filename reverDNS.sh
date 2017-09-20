@@ -1,3 +1,5 @@
+# Reverse DNS of a class
+
 #!/bin/bash
 
 read -p "Enter class here: " class
